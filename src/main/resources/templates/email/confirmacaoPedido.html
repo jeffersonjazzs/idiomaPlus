@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title th:remove="all">Confirmando o Pedido</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<style>
+		/* Estilos CSS aqui */
+		body {
+			font-family: Arial, sans-serif;
+			line-height: 1.6;
+			margin: 1;
+			padding: 0;
+			background-color: #32adf1;
+		}
+
+		h1 {
+			color: #333;
+		}
+		table {
+			width: 100%;
+			border-collapse: collapse;
+			background-color: #32adf1;
+			/* Adicionando a mesma cor de fundo para a tabela */
+		}
+		th,
+		td {
+			border: 1px solid #ddd;
+			padding: 8px;
+			text-align: left;
+		}
+		th {
+			background-color: #f2f2f2;
+		}
+		tr:nth-child(even) {
+			background-color: #f2f2f2;
+		}
+	</style>
+</head>
+
+<body>
+	<div>
+		<h1>
+			Confirmando o pedido número: <span th:text="${pedido.id}"></span>
+		</h1>
+		<p>
+			Cliente: <span th:text="${pedido.cliente.nome}"></span>
+		</p>
+		<p>
+			Data/Hora do Pedido:<span th:text="${#dates.format(pedido.instante, 'dd/MM/yyyy hh:mm')}"></span>
+		</p>
+		<p>
+			Situação do pagamento: <span th:text="${pedido.pagamento.estado.descricao}"></span>
+		</p>
+		<h3>Detalhes do pedido:</h3>
+		<table>
+			<tr>
+				<th>Produto</th>
+				<th>Quantidade</th>
+				<th>Preço unitário</th>
+				<th>Subtotal</th>
+			</tr>
+			<tr th:each="item : ${pedido.itens}">
+				<td th:text="${item.produto.nome}">nome</td>
+				<td th:text="${item.quantidade}">quantidade</td>
+				<td th:text="${#numbers.formatDecimal(item.preco, 0, 'POINT', 2, 'COMMA')}">preco</td>
+				<td th:text="${#numbers.formatDecimal(item.subTotal, 0, 'POINT', 2, 'COMMA')}">subTotal</td>
+			</tr>
+		</table>
+		<p>
+			Valor total: <span th:text="${#numbers.formatDecimal(pedido.valorTotal, 0, 'POINT', 2, 'COMMA')}"></span>
+		</p>
+	</div>
+</body>
+
+</html>
